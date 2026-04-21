@@ -1030,3 +1030,166 @@ System.out.println("No Pair Found");
 }
 }
 ```
+/*
+Problem: Matrix Reverse Diagonal Consistency
+
+Description:
+You are given a matrix of size M × N.
+
+Each group of elements that lie on the same diagonal from top-right to bottom-left
+is considered a diagonal group.
+
+These diagonals are formed by grouping elements having the same value of:
+i − j = constant
+
+Task:
+- Group elements based on diagonals (i − j)
+- Check if all elements in every diagonal are equal
+- If YES → return sum of first row
+- If NO  → return product of first row
+
+Input Format:
+First line: M N
+Next M lines: N integers each
+
+Output Format:
+Print a single integer
+
+Example:
+Input:
+3 3
+6 4 2
+7 2 1
+2 5 3
+
+Output:
+48
+
+Explanation:
+Diagonal [6,2,5] not equal → condition fails
+First row = [6,4,2]
+Product = 48
+*/
+
+import java.util.*;
+class Main{
+public static void main(String[] args){
+Scanner sc=new Scanner(System.in);
+int m=sc.nextInt();
+int n=sc.nextInt();
+
+int[][] mat=new int[m][n];
+for(int i=0;i<m;i++){
+for(int j=0;j<n;j++){
+mat[i][j]=sc.nextInt();
+}
+}
+
+boolean flag=true;
+HashMap<Integer,Integer> map=new HashMap<>();
+
+for(int i=0;i<m;i++){
+for(int j=0;j<n;j++){
+int key=i-j;
+if(!map.containsKey(key)){
+map.put(key,mat[i][j]);
+}else{
+if(map.get(key)!=mat[i][j]){
+flag=false;
+}
+}
+}
+}
+
+int result=1;
+
+if(flag){
+result=0;
+for(int j=0;j<n;j++){
+result+=mat[0][j];
+}
+}else{
+for(int j=0;j<n;j++){
+result*=mat[0][j];
+}
+}
+
+System.out.println(result);
+}
+}
+/*
+Problem: Stock Availability Score
+
+Description:
+You are given stock IDs with their quantities and a list of queries.
+
+You need to calculate a score based on availability.
+
+Rules:
+- qty = 2 → +3
+- qty = 1 → +2
+- qty = 0 → -2
+- not present → -6
+
+Input Format:
+First line: N
+Next N lines: stockID quantity
+Next line: Q
+Next line: Q stock IDs
+
+Output Format:
+Print final score
+
+Example:
+Input:
+3
+101 2
+102 1
+103 0
+4
+101 102 999 103
+
+Output:
+-3
+
+Explanation:
+101 → +3
+102 → +2
+999 → -6
+103 → -2
+Total = -3
+*/
+
+import java.util.*;
+class Main{
+public static void main(String[] args){
+Scanner sc=new Scanner(System.in);
+
+int n=sc.nextInt();
+HashMap<Integer,Integer> map=new HashMap<>();
+
+for(int i=0;i<n;i++){
+int id=sc.nextInt();
+int qty=sc.nextInt();
+map.put(id,qty);
+}
+
+int q=sc.nextInt();
+int score=0;
+
+for(int i=0;i<q;i++){
+int id=sc.nextInt();
+
+if(map.containsKey(id)){
+int qty=map.get(id);
+if(qty==2) score+=3;
+else if(qty==1) score+=2;
+else if(qty==0) score-=2;
+}else{
+score-=6;
+}
+}
+
+System.out.println(score);
+}
+}
